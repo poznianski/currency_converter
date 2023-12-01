@@ -1,7 +1,16 @@
 import React from 'react'
 
-export const Input: React.FC = () => {
+interface Props {
+  value: number
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export const Input: React.FC<Props> = ({ value, onChange }) => {
   return (
-    <input className="flex rounded border bg-transparent p-2 text-black outline-none" />
+    <input
+      value={value}
+      className="flex rounded border bg-transparent p-2 text-black outline-none"
+      onChange={onChange}
+    />
   )
 }
