@@ -1,41 +1,13 @@
 'use client'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-import { NBU_API_URL } from '@/app/constants'
+import { ICurrencyRate } from '@/app/page'
 
-interface ICurrencyRate {
-  cc: string
-  rate: number
-  exchangedate: string
+interface Props {
+  currencyRates: ICurrencyRate[]
 }
 
-export const Header: React.FC = () => {
-  const [currencyRates, setCurrencyRates] = useState<ICurrencyRate[]>([])
-
-  useEffect(() => {
-    const fetchRates = async () => {
-      try {
-        const response = await axios.get(NBU_API_URL)
-        const filtered = response.data
-          .filter(
-            (item: ICurrencyRate) => item.cc === 'USD' || item.cc === 'EUR',
-          )
-          .map(({ cc, rate, exchangedate }: ICurrencyRate) => ({
-            cc,
-            rate,
-            exchangedate,
-          }))
-
-        setCurrencyRates(filtered)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchRates()
-  }, [])
-
+export const Header: React.FC<Props> = ({ currencyRates }) => {
   return (
     <header className="container mx-auto p-2">
       <div>
