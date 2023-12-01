@@ -1,0 +1,9 @@
+{
+  "singleQuote": true,
+  "singleAttributePerLine": true,
+  "endOfLine": "crlf",
+  "indent_size": 2,
+  "printWidth": 80,
+  "semi": false,
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
