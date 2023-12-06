@@ -1,5 +1,10 @@
 import React from 'react'
-import Select, { StylesConfig, components } from 'react-select'
+import Select, {
+  StylesConfig,
+  components,
+  OptionProps,
+  SingleValueProps,
+} from 'react-select'
 
 export interface CurrencyOption {
   value: string
@@ -10,6 +15,45 @@ interface Props {
   options: CurrencyOption[]
   value: string
   onChange: (option: CurrencyOption) => void
+}
+
+interface Flags {
+  [key: string]: string
+}
+
+const renderCurrencyWithFlag = (data: CurrencyOption) => {
+  const flags: Flags = {
+    UAH: 'ua.svg',
+    USD: 'usa.svg',
+    EUR: 'eu.svg',
+  }
+
+  return (
+    <div className="flex items-center justify-between">
+      <span>{data.label}</span>
+      <img
+        src={flags[data.value]}
+        className="h-[40px] w-[50px]"
+        alt={`${data.value} flag`}
+      />
+    </div>
+  )
+}
+
+const CustomOption = (props: OptionProps<CurrencyOption, false>) => {
+  return (
+    <components.Option {...props}>
+      {renderCurrencyWithFlag(props.data)}
+    </components.Option>
+  )
+}
+
+const CustomSingleValue = (props: SingleValueProps<CurrencyOption, false>) => {
+  return (
+    <components.SingleValue {...props}>
+      {renderCurrencyWithFlag(props.data)}
+    </components.SingleValue>
+  )
 }
 
 export const Selector: React.FC<Props> = ({ options, value, onChange }) => {
@@ -49,6 +93,7 @@ export const Selector: React.FC<Props> = ({ options, value, onChange }) => {
         options={options}
         styles={styles}
         className="text-4xl"
+        components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
       />
     </div>
   )
