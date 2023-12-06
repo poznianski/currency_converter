@@ -79,7 +79,7 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
 
   return (
     <section className="container mx-auto my-auto p-6">
-      <div className="bg-darkLight flex flex-col gap-10 rounded-2xl p-6 sm:flex-row">
+      <div className="bg-darkLight flex flex-col gap-10 rounded-2xl p-6">
         <div className="flex flex-col">
           <p className="mb-2 text-2xl">Я віддам:</p>
 
