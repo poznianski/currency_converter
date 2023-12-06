@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react'
 
 import { Input } from '@/app/components/Converter/Input/Input'
 import { Selector } from '@/app/components/Select/Select'
-import { ICurrencyRate } from '@/app/page'
+import { CurrencyRate } from '@/app/page'
 
 interface Props {
-  currencyRates: ICurrencyRate[]
+  currencyRates: CurrencyRate[]
 }
 
 export const Converter: React.FC<Props> = ({ currencyRates }) => {
@@ -50,22 +50,23 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
   }
 
   useEffect(() => {
-    const extendedRates = [
-      ...currencyRates,
-      { cc: 'UAH', rate: 1, exchangedate: '' },
-    ]
+    const findRate = (currency: string, type: 'buy' | 'sale') => {
+      const rateInfo = currencyRates.find((rate) => rate.ccy === currency)
+      if (!rateInfo) return 1
+      return type === 'buy'
+        ? parseFloat(rateInfo.buy)
+        : parseFloat(rateInfo.sale)
+    }
 
-    let rateFrom = extendedRates.find((r) => r.cc === currencyFrom)?.rate || 1
-    let rateTo = extendedRates.find((r) => r.cc === currencyTo)?.rate || 1
+    let rateFrom = currencyFrom === 'UAH' ? 1 : findRate(currencyFrom, 'sale')
+    let rateTo = currencyTo === 'UAH' ? 1 : findRate(currencyTo, 'buy')
 
     if (lastModified === 'from') {
-      let amountInBaseCurrency = amountFrom * rateFrom
-      let convertedAmount = (amountInBaseCurrency / rateTo).toFixed(2)
-      setAmountTo(+convertedAmount)
+      let convertedAmount = (amountFrom * rateFrom) / rateTo
+      setAmountTo(parseFloat(convertedAmount.toFixed(2)))
     } else {
-      let amountInBaseCurrency = amountTo * rateTo
-      let convertedAmount = (amountInBaseCurrency / rateFrom).toFixed(2)
-      setAmountFrom(+convertedAmount)
+      let convertedAmount = (amountTo * rateTo) / rateFrom
+      setAmountFrom(parseFloat(convertedAmount.toFixed(2)))
     }
   }, [
     amountFrom,
@@ -77,7 +78,7 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
   ])
 
   return (
-    <section className="container mx-auto p-6">
+    <section className="container mx-auto my-auto p-6">
       <div className="bg-darkLight flex flex-col gap-10 rounded-2xl p-6 sm:flex-row">
         <div className="flex flex-col">
           <p className="mb-2 text-2xl">Я віддам:</p>

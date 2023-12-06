@@ -5,32 +5,23 @@ import { useEffect, useState } from 'react'
 import { Converter } from '@/app/components/Converter/Converter'
 import { Header } from '@/app/components/Header/Header'
 import { Separator } from '@/app/components/Separator/Separator'
-import { NBU_API_URL } from '@/app/constants'
+import { NBU_API_URL, PB_API_URL } from '@/app/constants'
 
-export interface ICurrencyRate {
-  cc: string
-  rate: number
-  exchangedate: string
+export interface CurrencyRate {
+  ccy: string
+  base_ccy: string
+  buy: string
+  sale: string
 }
 
 export default function Home() {
-  const [currencyRates, setCurrencyRates] = useState<ICurrencyRate[]>([])
+  const [currencyRates, setCurrencyRates] = useState<CurrencyRate[]>([])
 
   useEffect(() => {
     const fetchRates = async () => {
       try {
-        const response = await axios.get(NBU_API_URL)
-        const filtered = response.data
-          .filter(
-            (item: ICurrencyRate) => item.cc === 'USD' || item.cc === 'EUR',
-          )
-          .map(({ cc, rate, exchangedate }: ICurrencyRate) => ({
-            cc,
-            rate,
-            exchangedate,
-          }))
-
-        setCurrencyRates(filtered)
+        const response = await axios.get('/api/privatbank')
+        setCurrencyRates(response.data)
       } catch (error) {
         console.error(error)
       }
@@ -38,6 +29,7 @@ export default function Home() {
 
     fetchRates()
   }, [])
+
   return (
     <>
       <Header currencyRates={currencyRates} />
