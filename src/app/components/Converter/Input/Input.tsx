@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface Props {
-  value: number
+  value: number | ''
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -10,7 +10,7 @@ export const Input: React.FC<Props> = ({ value, onChange }) => {
     <input
       type="number"
       value={value}
-      className="bg-darkLight flex rounded border p-2 text-center text-6xl text-black outline-none"
+      className="text-black flex rounded border bg-darkLight p-2 text-center text-6xl outline-none"
       onChange={onChange}
     />
   )

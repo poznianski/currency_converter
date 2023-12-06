@@ -12,8 +12,8 @@ interface Props {
 
 export const Converter: React.FC<Props> = ({ currencyRates }) => {
   const initialAmount = 100
-  const [amountFrom, setAmountFrom] = useState(initialAmount)
-  const [amountTo, setAmountTo] = useState(0)
+  const [amountFrom, setAmountFrom] = useState<number | ''>(initialAmount)
+  const [amountTo, setAmountTo] = useState<number | ''>(0)
   const [currencyFrom, setCurrencyFrom] = useState('USD')
   const [currencyTo, setCurrencyTo] = useState('UAH')
   const [lastModified, setLastModified] = useState('from')
@@ -28,13 +28,19 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
   const handleChange =
     (inputType: 'from' | 'to') =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value.replace(/[^0-9.]/g, '')
+      let value = event.target.value.replace(/[^0-9.]/g, '')
+
+      if (value && !isNaN(Number(value))) {
+        value = String(Number(value))
+      }
+
+      const numericValue = value === '' ? '' : +value
 
       if (inputType === 'from') {
-        setAmountFrom(+value)
+        setAmountFrom(numericValue)
         setLastModified('from')
       } else {
-        setAmountTo(+value)
+        setAmountTo(numericValue)
         setLastModified('to')
       }
     }
@@ -62,11 +68,16 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
     let rateFrom = currencyFrom === 'UAH' ? 1 : findRate(currencyFrom, 'sale')
     let rateTo = currencyTo === 'UAH' ? 1 : findRate(currencyTo, 'buy')
 
+    const numericAmountFrom =
+      amountFrom === '' ? 0 : parseFloat(amountFrom.toString())
+    const numericAmountTo =
+      amountTo === '' ? 0 : parseFloat(amountTo.toString())
+
     if (lastModified === 'from') {
-      let convertedAmount = (amountFrom * rateFrom) / rateTo
+      let convertedAmount = (numericAmountFrom * rateFrom) / rateTo
       setAmountTo(parseFloat(convertedAmount.toFixed(2)))
     } else {
-      let convertedAmount = (amountTo * rateTo) / rateFrom
+      let convertedAmount = (numericAmountTo * rateTo) / rateFrom
       setAmountFrom(parseFloat(convertedAmount.toFixed(2)))
     }
   }, [
