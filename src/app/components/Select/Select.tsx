@@ -1,5 +1,5 @@
 import React from 'react'
-import Select, { StylesConfig } from 'react-select'
+import Select, { StylesConfig, components } from 'react-select'
 
 export interface CurrencyOption {
   value: string

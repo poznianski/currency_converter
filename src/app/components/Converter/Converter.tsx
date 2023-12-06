@@ -1,8 +1,9 @@
 'use client'
-import React, { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
 
 import { Input } from '@/app/components/Converter/Input/Input'
-import { CurrencyOption, Selector } from '@/app/components/Select/Select'
+import { Selector } from '@/app/components/Select/Select'
 import { ICurrencyRate } from '@/app/page'
 
 interface Props {
@@ -37,6 +38,17 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
       }
     }
 
+  const handleSwapCurrencies = () => {
+    setCurrencyFrom(currencyTo)
+    setCurrencyTo(currencyFrom)
+
+    const tempAmount = amountFrom
+    setAmountFrom(amountTo)
+    setAmountTo(tempAmount)
+
+    setLastModified(lastModified === 'from' ? 'to' : 'from')
+  }
+
   useEffect(() => {
     const extendedRates = [
       ...currencyRates,
@@ -66,9 +78,9 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
 
   return (
     <section className="container mx-auto p-6">
-      <div className="bg-darkLight flex flex-col gap-24 rounded-2xl p-6 sm:flex-row">
+      <div className="bg-darkLight flex flex-col gap-10 rounded-2xl p-6 sm:flex-row">
         <div className="flex flex-col">
-          <p className="mb-2">Я віддам:</p>
+          <p className="mb-2 text-2xl">Я віддам:</p>
 
           <Selector
             options={currencyOptions}
@@ -82,8 +94,20 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
           />
         </div>
 
+        <div
+          className="flex justify-center"
+          onClick={handleSwapCurrencies}
+        >
+          <Image
+            src="swap.svg"
+            height={100}
+            width={100}
+            alt="swap"
+          />
+        </div>
+
         <div className="flex flex-col">
-          <p className="mb-2">Я отримаю:</p>
+          <p className="mb-2 text-2xl">Я отримаю:</p>
 
           <Selector
             options={currencyOptions}
