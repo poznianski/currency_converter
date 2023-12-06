@@ -17,7 +17,7 @@ export const Header: React.FC<Props> = ({ currencyRates }) => {
 
         <div className="flex justify-between gap-4 p-2">
           <div>
-            <h3 className="mb-2 text-center text-3xl">Купівля</h3>
+            <h3 className="mb-2 text-center text-3xl">Продаж</h3>
             {currencyRates.map(({ ccy, buy }) => (
               <p
                 className="text-2xl"
@@ -29,7 +29,7 @@ export const Header: React.FC<Props> = ({ currencyRates }) => {
           </div>
 
           <div>
-            <h3 className="mb-2 text-center text-3xl">Продаж</h3>
+            <h3 className="mb-2 text-center text-3xl">Купівля</h3>
             {currencyRates.map(({ ccy, sale }) => (
               <p
                 className="text-2xl"

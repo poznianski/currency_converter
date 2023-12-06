@@ -79,47 +79,49 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
 
   return (
     <section className="container mx-auto my-auto p-6">
-      <div className="bg-darkLight flex flex-col gap-10 rounded-2xl p-6">
-        <div className="flex flex-col">
-          <p className="mb-2 text-2xl">Я віддам:</p>
+      <div className="flex justify-center">
+        <div className="bg-darkLight flex max-w-2xl flex-col justify-center gap-10 rounded-2xl p-6">
+          <div className="flex flex-col">
+            <p className="mb-2 text-2xl">Я віддам:</p>
 
-          <Selector
-            options={currencyOptions}
-            value={currencyFrom}
-            onChange={(option) => setCurrencyFrom(option.value)}
-          />
+            <Selector
+              options={currencyOptions}
+              value={currencyFrom}
+              onChange={(option) => setCurrencyFrom(option.value)}
+            />
 
-          <Input
-            value={amountFrom}
-            onChange={handleChange('from')}
-          />
-        </div>
+            <Input
+              value={amountFrom}
+              onChange={handleChange('from')}
+            />
+          </div>
 
-        <div
-          className="flex justify-center"
-          onClick={handleSwapCurrencies}
-        >
-          <Image
-            src="swap.svg"
-            height={100}
-            width={100}
-            alt="swap"
-          />
-        </div>
+          <div
+            className="flex justify-center"
+            onClick={handleSwapCurrencies}
+          >
+            <Image
+              src="swap.svg"
+              height={100}
+              width={100}
+              alt="swap"
+            />
+          </div>
 
-        <div className="flex flex-col">
-          <p className="mb-2 text-2xl">Я отримаю:</p>
+          <div className="flex flex-col">
+            <p className="mb-2 text-2xl">Я отримаю:</p>
 
-          <Selector
-            options={currencyOptions}
-            value={currencyTo}
-            onChange={(option) => setCurrencyTo(option.value)}
-          />
+            <Selector
+              options={currencyOptions}
+              value={currencyTo}
+              onChange={(option) => setCurrencyTo(option.value)}
+            />
 
-          <Input
-            value={amountTo}
-            onChange={handleChange('to')}
-          />
+            <Input
+              value={amountTo}
+              onChange={handleChange('to')}
+            />
+          </div>
         </div>
       </div>
     </section>
