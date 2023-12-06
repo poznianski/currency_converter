@@ -19,10 +19,14 @@ export const Selector: React.FC<Props> = ({ options, value, onChange }) => {
     control: (provided) => ({
       ...provided,
       backgroundColor: 'transparent',
-      border: '1px solid #d1d5db',
       boxShadow: 'none',
+      borderColor: '#cccccc',
+      '&:hover': {
+        borderColor: '#cccccc',
+      },
+      border: '1px solid #d1d5db',
       borderRadius: '0.375rem',
-      color: '#000000',
+      color: '#c0c0c0',
     }),
     option: (provided, state) => ({
       ...provided,
@@ -33,7 +37,7 @@ export const Selector: React.FC<Props> = ({ options, value, onChange }) => {
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: '#000000',
+      color: '#c0c0c0',
     }),
   }
 
@@ -44,6 +48,7 @@ export const Selector: React.FC<Props> = ({ options, value, onChange }) => {
         onChange={(option) => onChange(option as CurrencyOption)}
         options={options}
         styles={styles}
+        className="text-4xl"
       />
     </div>
   )

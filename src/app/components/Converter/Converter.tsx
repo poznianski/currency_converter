@@ -15,6 +15,7 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
   const [amountTo, setAmountTo] = useState(0)
   const [currencyFrom, setCurrencyFrom] = useState('USD')
   const [currencyTo, setCurrencyTo] = useState('UAH')
+  const [lastModified, setLastModified] = useState('from')
 
   const currencyOptions = [
     { value: 'UAH', label: 'UAH' },
@@ -22,61 +23,77 @@ export const Converter: React.FC<Props> = ({ currencyRates }) => {
     { value: 'EUR', label: 'EUR' },
   ]
 
+  const handleChange =
+    (inputType: 'from' | 'to') =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value.replace(/[^0-9.]/g, '')
+
+      if (inputType === 'from') {
+        setAmountFrom(+value)
+        setLastModified('from')
+      } else {
+        setAmountTo(+value)
+        setLastModified('to')
+      }
+    }
+
   useEffect(() => {
     const extendedRates = [
       ...currencyRates,
       { cc: 'UAH', rate: 1, exchangedate: '' },
     ]
 
-    const fromRate = extendedRates.find((rate) => rate.cc === currencyFrom)
+    let rateFrom = extendedRates.find((r) => r.cc === currencyFrom)?.rate || 1
+    let rateTo = extendedRates.find((r) => r.cc === currencyTo)?.rate || 1
 
-    if (fromRate) {
-      setAmountTo(amountFrom * fromRate.rate)
+    if (lastModified === 'from') {
+      let amountInBaseCurrency = amountFrom * rateFrom
+      let convertedAmount = (amountInBaseCurrency / rateTo).toFixed(2)
+      setAmountTo(+convertedAmount)
+    } else {
+      let amountInBaseCurrency = amountTo * rateTo
+      let convertedAmount = (amountInBaseCurrency / rateFrom).toFixed(2)
+      setAmountFrom(+convertedAmount)
     }
-  }, [amountFrom, currencyFrom, currencyRates, currencyTo])
-
-  const handleCurrencyFromChange = (option: CurrencyOption) => {
-    setCurrencyFrom(option.value)
-  }
-
-  const handleCurrencyToChange = (option: CurrencyOption) => {
-    setCurrencyTo(option.value)
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmountFrom(+event.target.value)
-  }
+  }, [
+    amountFrom,
+    amountTo,
+    currencyFrom,
+    currencyTo,
+    lastModified,
+    currencyRates,
+  ])
 
   return (
     <section className="container mx-auto p-6">
-      <div className="flex gap-24 rounded-2xl bg-gray-700 p-6">
-        <div className="flex flex-1 flex-col">
+      <div className="bg-darkLight flex flex-col gap-24 rounded-2xl p-6 sm:flex-row">
+        <div className="flex flex-col">
           <p className="mb-2">Я віддам:</p>
 
           <Selector
             options={currencyOptions}
             value={currencyFrom}
-            onChange={handleCurrencyFromChange}
+            onChange={(option) => setCurrencyFrom(option.value)}
           />
 
           <Input
             value={amountFrom}
-            onChange={handleChange}
+            onChange={handleChange('from')}
           />
         </div>
 
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-col">
           <p className="mb-2">Я отримаю:</p>
 
           <Selector
             options={currencyOptions}
             value={currencyTo}
-            onChange={handleCurrencyToChange}
+            onChange={(option) => setCurrencyTo(option.value)}
           />
 
           <Input
             value={amountTo}
-            onChange={handleChange}
+            onChange={handleChange('to')}
           />
         </div>
       </div>

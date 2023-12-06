@@ -8,8 +8,9 @@ interface Props {
 export const Input: React.FC<Props> = ({ value, onChange }) => {
   return (
     <input
+      type="number"
       value={value}
-      className="flex rounded border bg-transparent p-2 text-black outline-none"
+      className="bg-darkLight flex rounded border p-2 text-center text-6xl text-black outline-none"
       onChange={onChange}
     />
   )

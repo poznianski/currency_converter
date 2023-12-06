@@ -9,11 +9,14 @@ interface Props {
 
 export const Header: React.FC<Props> = ({ currencyRates }) => {
   return (
-    <header className="container mx-auto p-2">
+    <header className="container mx-auto mb-2 p-2">
       <div>
-        <h2>Курсом НБУ на сьогодні встановлено:</h2>
+        <h2 className="mb-2 text-3xl">Курсом НБУ на сьогодні встановлено:</h2>
         {currencyRates.map(({ cc, rate }) => (
-          <p key={cc}>
+          <p
+            className="text-2xl"
+            key={cc}
+          >
             {cc}: {rate}
           </p>
         ))}
