@@ -18,6 +18,20 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      keyframes: {
+        rotateTo180: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(180deg)' },
+        },
+        rotateTo0: {
+          '0%': { transform: 'rotate(180deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
+      },
+      animation: {
+        'rotate-to-180': 'rotateTo180 0.5s ease-in-out forwards',
+        'rotate-to-0': 'rotateTo0 0.5s ease-in-out forwards',
+      },
     },
   },
   plugins: [],

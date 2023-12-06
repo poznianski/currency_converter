@@ -92,7 +92,7 @@ export const Selector: React.FC<Props> = ({ options, value, onChange }) => {
         onChange={(option) => onChange(option as CurrencyOption)}
         options={options}
         styles={styles}
-        className="text-4xl"
+        className="cursor-pointer text-4xl"
         components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
       />
     </div>
