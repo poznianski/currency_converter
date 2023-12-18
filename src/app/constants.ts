@@ -3,3 +3,4 @@ export const NBU_API_URL =
 
 export const PB_API_URL =
   'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5'
+export const INITIAL_AMOUNT = 100

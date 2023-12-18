@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Input } from '@/app/components/Converter/Input/Input'
 import { Selector } from '@/app/components/Select/Select'
+import { INITIAL_AMOUNT } from '@/app/constants'
 import { CurrencyRate } from '@/app/page'
 
 interface Props {
@@ -11,8 +12,7 @@ interface Props {
 }
 
 export const Converter: React.FC<Props> = ({ currencyRates }) => {
-  const initialAmount = 100
-  const [amountFrom, setAmountFrom] = useState<number | ''>(initialAmount)
+  const [amountFrom, setAmountFrom] = useState<number | ''>(INITIAL_AMOUNT)
   const [amountTo, setAmountTo] = useState<number | ''>(0)
   const [currencyFrom, setCurrencyFrom] = useState('USD')
   const [currencyTo, setCurrencyTo] = useState('UAH')
